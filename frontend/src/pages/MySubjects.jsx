@@ -24,7 +24,7 @@ const MySubjects = () => {
     if (!facultyId) return;
 
     // Fetch subjects assigned to this faculty
-    fetch(`http://localhost:5000/subjects/byFaculty/${facultyId}`)
+    fetch(`https://gperiatd.onrender.com/subjects/byFaculty/${facultyId}`)
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
@@ -42,7 +42,7 @@ const MySubjects = () => {
       });
 
     // Fetch lecture & lab counts for this faculty
-    fetch(`http://localhost:5000/lectures/lectureCounts/${facultyId}`)
+    fetch(`https://gperiatd.onrender.com/lectures/lectureCounts/${facultyId}`)
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {

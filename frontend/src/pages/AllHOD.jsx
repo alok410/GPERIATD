@@ -11,7 +11,7 @@ const AllHOD = () => {
   const [filterDeptId, setFilterDeptId] = useState('');
 
   const fetchHODs = () => {
-    let url = 'http://localhost:5000/hod/getAllHOD';
+    let url = 'https://gperiatd.onrender.com/hod/getAllHOD';
     if (filterDeptId) url += `?department_id=${filterDeptId}`;
     fetch(url)
       .then(res => res.json())
@@ -20,7 +20,7 @@ const AllHOD = () => {
   };
 
   const fetchDepartments = () => {
-    fetch('http://localhost:5000/departments/getAllDepartments')
+    fetch('https://gperiatd.onrender.com/departments/getAllDepartments')
       .then(res => res.json())
       .then(data => setDepartments(data.departments || []))
       .catch(err => console.error('Failed to fetch departments', err));
@@ -28,7 +28,7 @@ const AllHOD = () => {
 
   const fetchFacultyByDepartment = (deptId) => {
     if (!deptId) return setFacultyList([]);
-    fetch(`http://localhost:5000/faculty/getByDepartment/${deptId}`)
+    fetch(`https://gperiatd.onrender.com/faculty/getByDepartment/${deptId}`)
       .then(res => res.json())
       .then(data => setFacultyList(data.faculty || []))
       .catch(err => console.error('Failed to fetch faculty', err));
@@ -47,7 +47,7 @@ const AllHOD = () => {
     e.preventDefault();
     const payload = { faculty_id: facultyId, department_id: departmentId };
 
-    fetch('http://localhost:5000/hod/create', {
+    fetch('https://gperiatd.onrender.com/hod/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -62,7 +62,7 @@ const AllHOD = () => {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/hod/delete/${id}`, { method: 'POST' })
+    fetch(`https://gperiatd.onrender.com/hod/delete/${id}`, { method: 'POST' })
       .then(res => res.json())
       .then(() => fetchHODs())
       .catch(err => console.error('Delete error', err));

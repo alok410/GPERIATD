@@ -37,7 +37,7 @@ const AllClasses = () => {
   }, [filters, classes]);
 
   const fetchData = () => {
-    fetch('http://localhost:5000/classes/getAllClasses')
+    fetch('https://gperiatd.onrender.com/classes/getAllClasses')
       .then(res => res.json())
       .then(data => {
         setClasses(data.classes || []);
@@ -46,15 +46,15 @@ const AllClasses = () => {
   };
 
   const fetchDropdownData = () => {
-    fetch('http://localhost:5000/departments/getAllDepartments')
+    fetch('https://gperiatd.onrender.com/departments/getAllDepartments')
       .then(res => res.json())
       .then(data => setDepartments(data.departments || []));
 
-    fetch('http://localhost:5000/sems/getAllSem')
+    fetch('https://gperiatd.onrender.com/sems/getAllSem')
       .then(res => res.json())
       .then(data => setSemesters(data.sems || []));
 
-    fetch('http://localhost:5000/programs/getAllPrograms')
+    fetch('https://gperiatd.onrender.com/programs/getAllPrograms')
       .then(res => res.json())
       .then(data => setPrograms(data.programs || []));
   };
@@ -84,8 +84,8 @@ const AllClasses = () => {
     e.preventDefault();
 
     const url = editId
-      ? `http://localhost:5000/classes/updateClass/${editId}`
-      : 'http://localhost:5000/classes/createClass';
+      ? `https://gperiatd.onrender.com/classes/updateClass/${editId}`
+      : 'https://gperiatd.onrender.com/classes/createClass';
     const method = editId ? 'PUT' : 'POST';
 
     fetch(url, {
@@ -114,7 +114,7 @@ const AllClasses = () => {
 
   const handleDelete = (id) => {
     if (window.confirm('Delete this class?')) {
-      fetch(`http://localhost:5000/classes/deleteClass/${id}`, {
+      fetch(`https://gperiatd.onrender.com/classes/deleteClass/${id}`, {
         method: 'DELETE',
       })
         .then(res => res.json())

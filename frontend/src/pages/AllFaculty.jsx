@@ -22,7 +22,7 @@ const AllFaculty = () => {
   }, []);
 
   const fetchFaculty = () => {
-    fetch("http://localhost:5000/faculty/getAllFaculty")
+    fetch("https://gperiatd.onrender.com/faculty/getAllFaculty")
       .then(res => res.json())
       .then(data => {
         setFaculty(data.faculty || []);
@@ -31,7 +31,7 @@ const AllFaculty = () => {
   };
 
   const fetchDepartments = () => {
-    fetch("http://localhost:5000/departments/getAllDepartments")
+    fetch("https://gperiatd.onrender.com/departments/getAllDepartments")
       .then(res => res.json())
       .then(data => setDepartments(data.departments || []));
   };
@@ -71,8 +71,8 @@ const AllFaculty = () => {
     }
 
     const url = editMode
-      ? `http://localhost:5000/faculty/updateFaculty/${editId}`
-      : `http://localhost:5000/faculty/createFaculty`;
+      ? `https://gperiatd.onrender.com/faculty/updateFaculty/${editId}`
+      : `https://gperiatd.onrender.com/faculty/createFaculty`;
     const method = editMode ? "PUT" : "POST";
 
     fetch(url, {
@@ -100,7 +100,7 @@ const AllFaculty = () => {
 
   const handleDelete = (id) => {
     if (window.confirm("Delete this faculty?")) {
-      fetch(`http://localhost:5000/faculty/deleteFaculty/${id}`, { method: "DELETE" })
+      fetch(`https://gperiatd.onrender.com/faculty/deleteFaculty/${id}`, { method: "DELETE" })
         .then(res => res.json())
         .then(() => {
           alert("Faculty deleted!");

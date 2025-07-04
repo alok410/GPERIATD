@@ -16,7 +16,7 @@ const AllLectures = () => {
 
   useEffect(() => {
     // Fetch lectures
-    fetch(`http://localhost:5000/lectures/bySubject/${subjectId}`)
+    fetch(`https://gperiatd.onrender.com/lectures/bySubject/${subjectId}`)
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
@@ -29,7 +29,7 @@ const AllLectures = () => {
       });
 
     // Fetch subject details
-    fetch(`http://localhost:5000/subjects/details/${subjectId}`)
+    fetch(`https://gperiatd.onrender.com/subjects/details/${subjectId}`)
       .then(res => res.json())
       .then(data => {
         setSubjectName(data.subject_name || '');
@@ -59,7 +59,7 @@ const AllLectures = () => {
     duration: newLecture.type === 'Lec' ? 1 : 2
   };
 
-  fetch('http://localhost:5000/lectures/createLecture', {
+  fetch('https://gperiatd.onrender.com/lectures/createLecture', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
@@ -69,7 +69,7 @@ const AllLectures = () => {
       alert('Lecture created!');
       setShowModal(false);
       setNewLecture({ date: '', type: 'Lec', topic: '' });
-      fetch(`http://localhost:5000/lectures/bySubject/${subjectId}`)
+      fetch(`https://gperiatd.onrender.com/lectures/bySubject/${subjectId}`)
         .then(res => res.json())
         .then(setLectures);
     })

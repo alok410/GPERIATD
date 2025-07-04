@@ -14,14 +14,14 @@ const CreateSubjects = () => {
 
     if (deptId) {
       // ✅ Fetch classes by department ID
-      fetch(`http://localhost:5000/classes/byDept/${deptId}`)
+      fetch(`https://gperiatd.onrender.com/classes/byDept/${deptId}`)
         .then(res => res.json())
         .then(data => {
           setClasses(data || []);
         });
 
       // ✅ Get department name
-      fetch('http://localhost:5000/departments/getAllDepartments')
+      fetch('https://gperiatd.onrender.com/departments/getAllDepartments')
         .then(res => res.json())
         .then(data => {
           const dept = data.departments?.find(d => d.id === deptId);
@@ -41,7 +41,7 @@ const CreateSubjects = () => {
       return alert('Subject name and class are required.');
     }
 
-    fetch('http://localhost:5000/subjects/createSubject', {
+    fetch('https://gperiatd.onrender.com/subjects/createSubject', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: subjectName, class_id: selectedClassId })

@@ -15,7 +15,7 @@ const Attendance = () => {
 
   useEffect(() => {
     // Fetch subject details
-    fetch(`http://localhost:5000/subjects/details/${subjectId}`)
+    fetch(`https://gperiatd.onrender.com/subjects/details/${subjectId}`)
       .then(res => res.json())
       .then(data => {
         setClassName(data.class_name || '');
@@ -24,7 +24,7 @@ const Attendance = () => {
       .catch(err => console.error('Error fetching subject details:', err));
 
     // Fetch students by subject
-    fetch(`http://localhost:5000/students/bySubject/${subjectId}`)
+    fetch(`https://gperiatd.onrender.com/students/bySubject/${subjectId}`)
       .then(res => res.json())
       .then(data => {
         if (data.students) {
@@ -32,7 +32,7 @@ const Attendance = () => {
           setClassId(data.class_id);
 
           // Fetch existing attendance
-          fetch(`http://localhost:5000/attendance/byLecture/${lectureId}`)
+          fetch(`https://gperiatd.onrender.com/attendance/byLecture/${lectureId}`)
             .then(res => res.json())
             .then(saved => {
               const mapped = {};
@@ -66,7 +66,7 @@ const Attendance = () => {
       status: attendanceData[stu.id]
     }));
 
-    fetch('http://localhost:5000/attendance/markOrUpdate', {
+    fetch('https://gperiatd.onrender.com/attendance/markOrUpdate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ attendance: attendanceArray })

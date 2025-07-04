@@ -42,17 +42,17 @@ const StudentDashboard = () => {
 
     const fetchData = async () => {
       try {
-        const res1 = await fetch(`http://localhost:5000/students/getById/${studentId}`);
+        const res1 = await fetch(`https://gperiatd.onrender.com/students/getById/${studentId}`);
         const studentData = await res1.json();
         console.log("Student Data:", studentData);
         setClassInfo(studentData.classDetails);
 
-        const res2 = await fetch(`http://localhost:5000/subjects/byClass/${studentData.class_id}`);
+        const res2 = await fetch(`https://gperiatd.onrender.com/subjects/byClass/${studentData.class_id}`);
         const subjectData = await res2.json();
         console.log("Subjects:", subjectData);
         setSubjects(subjectData || []);
 
-        const res3 = await fetch(`http://localhost:5000/attendance/student/${studentId}`);
+        const res3 = await fetch(`https://gperiatd.onrender.com/attendance/student/${studentId}`);
         const attendanceData = await res3.json();
         console.log("Attendance Records:", attendanceData.records);
         setAttendance(attendanceData.records || []);

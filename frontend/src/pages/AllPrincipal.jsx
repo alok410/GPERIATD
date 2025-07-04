@@ -10,7 +10,7 @@ const AllPrincipal = () => {
 
   // Fetch principals
   const fetchPrincipals = () => {
-    fetch("http://localhost:5000/principal/getPrincipal")
+    fetch("https://gperiatd.onrender.com/principal/getPrincipal")
       .then(res => res.json())
       .then(data => {
         setPrincipal(data.principal || []);
@@ -28,8 +28,8 @@ const AllPrincipal = () => {
     const payload = { name, email, password };
 
     const url = editId
-      ? `http://localhost:5000/principal/update/${editId}`
-      : `http://localhost:5000/principal/create`;
+      ? `https://gperiatd.onrender.com/principal/update/${editId}`
+      : `https://gperiatd.onrender.com/principal/create`;
 
     fetch(url, {
       method: 'POST',
@@ -54,7 +54,7 @@ const AllPrincipal = () => {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/principal/delete/${id}`, {
+    fetch(`https://gperiatd.onrender.com/principal/delete/${id}`, {
       method: 'POST'
     })
       .then(res => res.json())

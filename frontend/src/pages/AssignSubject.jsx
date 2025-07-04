@@ -23,12 +23,12 @@ const AssignSubject = () => {
   useEffect(() => {
     if (!departmentId) return;
 
-    fetch(`http://localhost:5000/subjects/byDeptFull/${departmentId}`)
+    fetch(`https://gperiatd.onrender.com/subjects/byDeptFull/${departmentId}`)
       .then(res => res.json())
       .then(data => Array.isArray(data) ? setSubjects(data) : setSubjects([]))
       .catch(err => console.error('Error fetching subjects:', err));
 
-    fetch(`http://localhost:5000/faculty/getByDepartment/${departmentId}`)
+    fetch(`https://gperiatd.onrender.com/faculty/getByDepartment/${departmentId}`)
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) setFacultyList(data);
@@ -40,7 +40,7 @@ const AssignSubject = () => {
         setFacultyList([]);
       });
 
-    fetch(`http://localhost:5000/classes/byDept/${departmentId}`)
+    fetch(`https://gperiatd.onrender.com/classes/byDept/${departmentId}`)
       .then(res => res.json())
       .then(setClassList)
       .catch(err => console.error('Error fetching classes:', err));
@@ -70,7 +70,7 @@ const AssignSubject = () => {
   };
 
   const handleSave = (subjectId) => {
-    fetch(`http://localhost:5000/subjects/assignFaculty/${subjectId}`, {
+    fetch(`https://gperiatd.onrender.com/subjects/assignFaculty/${subjectId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(editedFaculties),
@@ -79,7 +79,7 @@ const AssignSubject = () => {
       .then(data => {
         alert(data.message || 'Updated successfully!');
         setEditingId(null);
-        return fetch(`http://localhost:5000/subjects/byDeptFull/${departmentId}`);
+        return fetch(`https://gperiatd.onrender.com/subjects/byDeptFull/${departmentId}`);
       })
       .then(res => res.json())
       .then(data => Array.isArray(data) ? setSubjects(data) : setSubjects([]))

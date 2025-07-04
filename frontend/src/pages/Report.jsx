@@ -13,7 +13,7 @@ const Report = () => {
   const [lectureDatesLab, setLectureDatesLab] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/attendance/report/${subjectId}/${facultyId}`)
+    fetch(`https://gperiatd.onrender.com/attendance/report/${subjectId}/${facultyId}`)
       .then(res => res.json())
       .then(data => {
         const theoryLectures = data.lectureDates.filter(ld => ld.duration === 1);

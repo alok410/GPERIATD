@@ -30,18 +30,18 @@ const AllStudents = () => {
   }, []);
 
   const fetchData = () => {
-    fetch("http://localhost:5000/students/getAllStudents")
+    fetch("https://gperiatd.onrender.com/students/getAllStudents")
       .then(res => res.json())
       .then(data => {
         setStudents(data.students || []);
         setFilteredStudents(data.students || []);
       });
 
-    fetch("http://localhost:5000/departments/getAllDepartments")
+    fetch("https://gperiatd.onrender.com/departments/getAllDepartments")
       .then(res => res.json())
       .then(data => setDepartments(data.departments || []));
 
-    fetch("http://localhost:5000/classes/getAllClasses")
+    fetch("https://gperiatd.onrender.com/classes/getAllClasses")
       .then(res => res.json())
       .then(data => setClasses(data.classes || []));
   };
@@ -92,8 +92,8 @@ const AllStudents = () => {
     };
 
     const url = editMode
-      ? `http://localhost:5000/students/update/${editId}`
-      : "http://localhost:5000/students/create";
+      ? `https://gperiatd.onrender.com/students/update/${editId}`
+      : "https://gperiatd.onrender.com/students/create";
     const method = editMode ? "PUT" : "POST";
 
     fetch(url, {
@@ -111,7 +111,7 @@ const AllStudents = () => {
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this student?")) {
-      fetch(`http://localhost:5000/students/delete/${id}`, { method: "DELETE" })
+      fetch(`https://gperiatd.onrender.com/students/delete/${id}`, { method: "DELETE" })
         .then(res => res.json())
         .then(() => {
           alert("Deleted successfully!");
