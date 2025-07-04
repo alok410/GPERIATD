@@ -29,7 +29,7 @@ const Navbar = () => {
       }
 
       try {
-        const res = await fetch(`http://localhost:5000/departments/getById/${departmentId}`);
+        const res = await fetch(`https://gperiatd.onrender.com/departments/getById/${departmentId}`);
         const data = await res.json();
         if (data?.name) {
           setDepartmentName(data.name);
