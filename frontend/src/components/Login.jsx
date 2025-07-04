@@ -72,45 +72,26 @@ const Login = () => {
         button:hover:not(:disabled) {
           transform: scale(1.02);
         }
-        @media (max-width: 768px) {
-          .container {
-            grid-template-columns: 1fr !important;
-            text-align: center;
-          }
-          .left-section {
-            padding: 1rem 0 !important;
-          }
-        }
       `}</style>
-
-      <div className="container" style={{
-        maxWidth: '1200px',
-        width: '100%',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: '2rem',
-        alignItems: 'center'
-      }}>
-        {/* Left Section */}
-        <div className="left-section" style={{ color: 'white', padding: '1rem' }}>
+      <div style={{ maxWidth: '1200px', width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center' }}>
+        {/* Left Side */}
+        <div style={{ color: 'white', padding: '1rem' }}>
           <h1 style={{
-            fontSize: '2.5rem',
+            fontSize: '3rem',
             fontWeight: 'bold',
             background: 'linear-gradient(to right, #60a5fa, #22d3ee)',
             WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}>
-            Welcome Back To GPERI Attendance System
-          </h1>
+            WebkitTextFillColor: 'transparent',
+          }}>Welcome Back To GPERI Attendance System</h1>
           <p style={{ fontSize: '1.2rem', color: '#cbd5e1' }}>Access your institutional portal</p>
-          <ul style={{ marginTop: '2rem', color: '#cbd5e1', textAlign: 'left' }}>
+          <ul style={{ marginTop: '2rem', color: '#cbd5e1' }}>
             <li>🛡️ Secure authentication system</li>
             <li>👥 Multi-role access control</li>
             <li>🎓 Comprehensive portal management</li>
           </ul>
         </div>
 
-        {/* Right Section */}
+        {/* Right Side */}
         <div style={{
           backgroundColor: 'rgba(255,255,255,0.05)',
           border: '1px solid rgba(255,255,255,0.2)',
@@ -147,7 +128,6 @@ const Login = () => {
                 }}
               />
             </div>
-
             <div>
               <label>Password</label>
               <div style={{ position: 'relative' }}>
@@ -158,8 +138,7 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   style={{
-                    width: '100%',
-                    padding: '0.75rem',
+                    width: '93%', padding: '0.75rem',
                     paddingRight: '3rem',
                     background: 'rgba(255,255,255,0.05)',
                     border: '1px solid rgba(255,255,255,0.2)',
