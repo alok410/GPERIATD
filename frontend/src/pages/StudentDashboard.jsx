@@ -10,8 +10,10 @@ import {
   Legend,
   ArcElement,
   LineElement,
-  PointElement
+  PointElement,
+  TimeScale
 } from 'chart.js';
+import 'chartjs-adapter-date-fns';
 
 ChartJS.register(
   BarElement,
@@ -21,7 +23,8 @@ ChartJS.register(
   Legend,
   ArcElement,
   LineElement,
-  PointElement
+  PointElement,
+  TimeScale
 );
 
 const StudentDashboard = () => {
@@ -29,8 +32,10 @@ const StudentDashboard = () => {
   const [classInfo, setClassInfo] = useState(null);
   const [subjects, setSubjects] = useState([]);
   const [attendance, setAttendance] = useState([]);
-  const [lectures, setLectures] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState(null);
+  const [chartType, setChartType] = useState('bar');
+      
+  const [monthFilter, setMonthFilter] = useState('');
 
   useEffect(() => {
     if (!studentId) return;
@@ -39,59 +44,100 @@ const StudentDashboard = () => {
       try {
         const res1 = await fetch(`http://localhost:5000/students/getById/${studentId}`);
         const studentData = await res1.json();
+        console.log("Student Data:", studentData);
         setClassInfo(studentData.classDetails);
 
         const res2 = await fetch(`http://localhost:5000/subjects/byClass/${studentData.class_id}`);
         const subjectData = await res2.json();
+        console.log("Subjects:", subjectData);
         setSubjects(subjectData || []);
 
         const res3 = await fetch(`http://localhost:5000/attendance/student/${studentId}`);
         const attendanceData = await res3.json();
+        console.log("Attendance Records:", attendanceData.records);
         setAttendance(attendanceData.records || []);
-        console.log("Attendance records:", attendanceData.records);
-
-        const res4 = await fetch(`http://localhost:5000/lectures/getAllLecture`);
-        const lectureData = await res4.json();
-        setLectures(lectureData.lectures || []);
-        console.log("All lectures:", lectureData.lectures);
       } catch (error) {
-        console.error("❌ Error loading student dashboard data:", error);
+        console.error("Error loading student dashboard data:", error);
       }
     };
 
     fetchData();
   }, [studentId]);
 
+  const getFilteredAttendance = () => {
+    const result = attendance.filter(a => {
+      if (!monthFilter) return true;
+      return a.date.startsWith(monthFilter);
+    });
+    console.log("Filtered Attendance:", result);
+    return result;
+  };
+
+  const filteredAttendance = getFilteredAttendance();
+
+  const getLectureAttendanceCount = () => {
+    const lectures = filteredAttendance.filter(a => a.type === 'lecture');
+    const labs = filteredAttendance.filter(a => a.type === 'lab');
+    return {
+      lecture: lectures.length,
+      lab: labs.length
+    };
+  };
+
   const getSubjectWiseAttendance = () => {
     const subjectMap = {};
-    attendance.forEach(record => {
+    filteredAttendance.forEach(record => {
       const subjectName = record.subject_name || 'Unknown';
       if (!subjectMap[subjectName]) {
-        subjectMap[subjectName] = { lecture: 0, lab: 0, dates: [] };
+        subjectMap[subjectName] = { lecture: 0, lab: 0, presentDates: [], absentDates: [] };
       }
       if (record.type === 'lecture') subjectMap[subjectName].lecture++;
       if (record.type === 'lab') subjectMap[subjectName].lab++;
-      subjectMap[subjectName].dates.push({ date: record.date, type: record.type });
+      const status = record.present ? '✅ Present' : '❌ Absent';
+      const entry = `${record.date} - ${record.type.toUpperCase()} - ${status}`;
+      if (record.present) subjectMap[subjectName].presentDates.push(entry);
+      else subjectMap[subjectName].absentDates.push(entry);
     });
+    console.log("Subject-wise Data:", subjectMap);
     return subjectMap;
   };
 
+  const getDateWiseTypeAttendance = (subject = null) => {
+    const dateMap = {};
+    filteredAttendance.forEach(record => {
+      if (subject && record.subject_name !== subject) return;
+      const date = record.date;
+      const type = record.type;
+      if (!dateMap[date]) dateMap[date] = { lecture: 0, lab: 0 };
+      if (type === 'lecture') dateMap[date].lecture += 1;
+      else if (type === 'lab') dateMap[date].lab += 1;
+    });
+    const trend = Object.entries(dateMap).map(([date, counts]) => ({ date, ...counts }));
+    console.log("Trend Data:", trend);
+    return trend;
+  };
+
+  const { lecture, lab } = getLectureAttendanceCount();
   const subjectWiseData = getSubjectWiseAttendance();
   const activeSubjectData = selectedSubject ? subjectWiseData[selectedSubject] : null;
+  const trendData = getDateWiseTypeAttendance(selectedSubject);
 
   const lineChartData = {
-    labels: activeSubjectData?.dates.map(item => {
-      const date = new Date(item.date);
-      return `${date.getDate()}/${date.getMonth() + 1}`;
-    }),
+    labels: trendData.map(d => d.date),
     datasets: [
       {
-        label: `${selectedSubject || ''} Attendance (Timeline)`,
-        data: activeSubjectData?.dates.map((_, i) => i + 1),
-        borderColor: '#22d3ee',
-        backgroundColor: '#06b6d4',
-        tension: 0.3,
-        fill: false
+        label: 'Lectures',
+        data: trendData.map(d => d.lecture),
+        borderColor: '#3b82f6',
+        backgroundColor: '#3b82f655',
+        tension: 0.3
+      },
+      {
+        label: 'Labs',
+        data: trendData.map(d => d.lab),
+        borderColor: '#10b981',
+        backgroundColor: '#10b98155',
+        tension: 0.3
       }
     ]
   };
@@ -100,11 +146,8 @@ const StudentDashboard = () => {
     labels: ['Lecture', 'Lab'],
     datasets: [
       {
-        label: `Attendance Count - ${selectedSubject || ''}`,
-        data: [
-          activeSubjectData?.lecture || 0,
-          activeSubjectData?.lab || 0
-        ],
+        label: 'Attendance Count',
+        data: [lecture, lab],
         backgroundColor: ['#3b82f6', '#10b981']
       }
     ]
@@ -114,14 +157,17 @@ const StudentDashboard = () => {
     labels: ['Lecture', 'Lab'],
     datasets: [
       {
-        data: [
-          activeSubjectData?.lecture || 0,
-          activeSubjectData?.lab || 0
-        ],
+        data: [lecture, lab],
         backgroundColor: ['#60a5fa', '#34d399'],
         hoverOffset: 4
       }
     ]
+  };
+
+  const chartMap = {
+    bar: <Bar data={barData} options={{ maintainAspectRatio: false }} height={200} />,
+    line: <Line data={lineChartData} options={{ maintainAspectRatio: false }} height={200} />,
+    doughnut: <Doughnut data={doughnutData} options={{ maintainAspectRatio: false }} height={200} />
   };
 
   return (
@@ -137,6 +183,16 @@ const StudentDashboard = () => {
             <p><strong>Department:</strong> {classInfo.department_name}</p>
           </div>
         )}
+
+        <div style={section}>
+          <h3 style={subHeading}>📆 Filter By Month</h3>
+          <input
+            type="month"
+            value={monthFilter}
+            onChange={(e) => setMonthFilter(e.target.value)}
+            style={{ padding: '0.5rem', borderRadius: '8px', border: '1px solid #ccc' }}
+          />
+        </div>
 
         <div style={section}>
           <h3 style={subHeading}>📘 Subjects You're Learning</h3>
@@ -159,71 +215,61 @@ const StudentDashboard = () => {
         </div>
 
         <div style={section}>
-          <h3 style={subHeading}>📊 Subject-wise Attendance</h3>
-          {selectedSubject && activeSubjectData ? (
-            <div style={chartGrid}>
-              <div style={chartBox}><Bar data={barData} /></div>
-              <div style={chartBox}><Doughnut data={doughnutData} /></div>
-              <div style={chartBox}><Line data={lineChartData} /></div>
-            </div>
-          ) : (
-            <p style={{ color: '#94a3b8' }}>Select a subject to view charts.</p>
-          )}
+          <h3 style={subHeading}>📊 Chart View Toggle</h3>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            {['bar', 'line', 'doughnut'].map(type => (
+              <button
+                key={type}
+                onClick={() => setChartType(type)}
+                style={subBtn(chartType === type)}
+              >
+                {type.toUpperCase()}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div style={section}>
-          <h3 style={subHeading}>🧾 Attendance for {selectedSubject || '...'}</h3>
-          {selectedSubject ? (
-            (() => {
-              const filteredLectures = lectures.filter(
-                lec => lec.subject_name === selectedSubject
-              );
+          <h3 style={subHeading}>📈 Attendance Overview ({chartType.toUpperCase()} Chart)</h3>
+          <div style={chartBox}>{chartMap[chartType]}</div>
+        </div>
 
-              const attendanceMap = {};
-              attendance.forEach(record => {
-                attendanceMap[record.lecture_id] = record.present;
-              });
-
-              return filteredLectures.length > 0 ? (
-                <div style={tableContainer}>
-                  <table style={tableStyle}>
-                    <thead>
-                      <tr>
-                        <th style={thStyle}>Date</th>
-                        <th style={thStyle}>Type</th>
-                        <th style={thStyle}>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredLectures.map((lec, i) => {
-                        const date = new Date(lec.date);
-                        const formatted = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-                        const isPresent = attendanceMap[lec._id];
-                        return (
-                          <tr key={i}>
-                            <td style={tdStyle}>{formatted}</td>
-                            <td style={tdStyle}>{lec.type}</td>
-                            <td style={tdStyle}>{isPresent ? '✅ Present' : '❌ Absent'}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <p style={{ color: '#94a3b8' }}>No lectures found for this subject.</p>
-              );
-            })()
+        <div style={section}>
+          <h3 style={subHeading}>📊 Subject-wise Line Chart</h3>
+          {selectedSubject && activeSubjectData ? (
+            <div style={chartBox}>
+              <Line data={lineChartData} options={{ maintainAspectRatio: false }} height={200} />
+            </div>
           ) : (
-            <p style={{ color: '#94a3b8' }}>Select a subject to view attendance table.</p>
+            <p style={{ color: '#94a3b8' }}>Select a subject to view detailed chart.</p>
           )}
         </div>
+
+        {selectedSubject && activeSubjectData && (
+          <div style={section}>
+            <h3 style={subHeading}>📜 {selectedSubject} Attendance Details</h3>
+            <div style={infoCard}>
+              <h4>✅ Present</h4>
+              <ul>
+                {activeSubjectData.presentDates.map((entry, index) => (
+                  <li key={index}>{entry}</li>
+                ))}
+              </ul>
+              <hr style={{ margin: '1rem 0', borderColor: '#ccc' }} />
+              <h4>❌ Absent</h4>
+              <ul>
+                {activeSubjectData.absentDates.map((entry, index) => (
+                  <li key={index}>{entry}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
 };
 
-// Styles (same)
 const pageStyle = {
   padding: "2rem",
   background: "linear-gradient(to bottom right, #1e293b, #0f172a)",
@@ -249,7 +295,9 @@ const infoCard = {
   boxShadow: "0 0 10px rgba(0,0,0,0.2)"
 };
 
-const section = { marginBottom: "2rem" };
+const section = {
+  marginBottom: "2rem"
+};
 
 const listStyle = {
   listStyle: "none",
@@ -268,42 +316,13 @@ const subBtn = (active) => ({
   cursor: "pointer"
 });
 
-const chartGrid = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-  gap: "1rem"
-};
-
 const chartBox = {
+  flex: 1,
+  minWidth: "300px",
+  height: "200px",
   background: "#1e293b",
-  padding: "0.5rem",
-  borderRadius: "10px",
-  height: "250px"
-};
-
-const tableContainer = {
-  overflowX: 'auto',
-  backgroundColor: '#1f2937',
-  padding: '1rem',
-  borderRadius: '10px'
-};
-
-const tableStyle = {
-  width: '100%',
-  borderCollapse: 'collapse',
-  color: '#fff'
-};
-
-const thStyle = {
-  padding: '0.75rem',
-  borderBottom: '1px solid #334155',
-  textAlign: 'left',
-  backgroundColor: '#0f172a'
-};
-
-const tdStyle = {
-  padding: '0.75rem',
-  borderBottom: '1px solid #334155'
+  padding: "1rem",
+  borderRadius: "10px"
 };
 
 export default StudentDashboard;

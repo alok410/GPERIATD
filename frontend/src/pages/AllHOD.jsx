@@ -113,7 +113,6 @@ const AllHOD = () => {
           )}
         </div>
 
-        {/* Form */}
         <div
           style={{
             padding: "20px",
