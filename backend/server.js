@@ -23,7 +23,7 @@ require('dotenv').config();
 
 // ✅ Apply CORS middleware BEFORE routes
 app.use(cors({
-  origin: 'http://localhost:3000', // React frontend URL
+  origin: 'https://gperiatd-1.onrender.com', // React frontend URL
   credentials: true
 }));
 
