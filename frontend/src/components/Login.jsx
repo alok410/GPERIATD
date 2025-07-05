@@ -335,41 +335,41 @@ const Login = () => {
             </button>
           </form>
 
-          <div>
-            <h4 style={{ marginBottom: '1rem', textAlign: 'center', opacity: '0.8' }}>
-              Quick Test Accounts
-            </h4>
-            <div style={testAccountsStyle}>
-              {testAccounts.map((acc, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    setEmail(acc.email);
-                    setPassword(acc.password);
-                  }}
-                  style={testAccountStyle}
-                  onMouseEnter={(e) => {
-                    e.target.style.transform = 'translateY(-2px)';
-                    e.target.style.boxShadow = '0 8px 16px rgba(0,0,0,0.1)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.transform = 'translateY(0)';
-                    e.target.style.boxShadow = 'none';
-                  }}
-                >
-                  <div style={{ fontWeight: '600', marginBottom: '0.25rem' }}>
-                    {acc.icon} {acc.role}
+            <div>
+              <h4 style={{ marginBottom: '1rem', textAlign: 'center', opacity: '0.8' }}>
+                Quick Test Accounts
+              </h4>
+              <div style={testAccountsStyle}>
+                {testAccounts.map((acc, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      setEmail(acc.email);
+                      setPassword(acc.password);
+                    }}
+                    style={testAccountStyle}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 8px 16px rgba(0,0,0,0.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = 'none';
+                    }}
+                  >
+                    <div style={{ fontWeight: '600', marginBottom: '0.25rem' }}>
+                      {acc.icon} {acc.role}
+                    </div>
+                    <div style={{ fontSize: '0.8rem', opacity: '0.8' }}>
+                      {acc.email}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', opacity: '0.6' }}>
+                      Password: {acc.password}
+                    </div>
                   </div>
-                  <div style={{ fontSize: '0.8rem', opacity: '0.8' }}>
-                    {acc.email}
-                  </div>
-                  <div style={{ fontSize: '0.75rem', opacity: '0.6' }}>
-                    Password: {acc.password}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
         </div>
       </div>
     </div>
