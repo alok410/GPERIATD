@@ -167,6 +167,7 @@ const getAttendanceByStudentId = (req, res) => {
       a.lecture_id,
       a.student_id,
       l.date,
+      a.status
       l.topic,
       l.duration,
       l.subject_id,
