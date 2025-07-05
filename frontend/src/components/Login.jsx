@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,7 +8,10 @@ const Login = () => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [dark, setDark] = useState(false);
   const navigate = useNavigate();
+
+  const toggleDarkMode = () => setDark(!dark);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,7 +25,6 @@ const Login = () => {
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-
       if (!res.ok) throw new Error(data.message);
 
       localStorage.setItem('token', data.token);
@@ -53,168 +56,319 @@ const Login = () => {
     { email: 'hodMech@gmail.com', password: '1', role: 'HOD Mechanical', icon: '🏭' },
   ];
 
+  const containerStyle = {
+    minHeight: '100vh',
+    background: dark
+      ? 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)'
+      : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '1rem',
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    transition: 'all 0.3s ease',
+  };
+
+  const cardStyle = {
+    display: 'grid',
+    gridTemplateColumns: window.innerWidth > 768 ? '1fr 1fr' : '1fr',
+    gap: '2rem',
+    background: dark 
+      ? 'linear-gradient(145deg, #1e293b, #334155)' 
+      : 'rgba(255, 255, 255, 0.95)',
+    padding: '2.5rem',
+    borderRadius: '20px',
+    maxWidth: '1100px',
+    width: '100%',
+    boxShadow: dark
+      ? '0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1)'
+      : '0 20px 40px rgba(0,0,0,0.1), 0 0 0 1px rgba(255,255,255,0.2)',
+    color: dark ? '#f1f5f9' : '#1e293b',
+    backdropFilter: 'blur(10px)',
+    border: dark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
+  };
+
+  const leftSideStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    textAlign: window.innerWidth <= 768 ? 'center' : 'left',
+  };
+
+  const titleStyle = {
+    fontSize: window.innerWidth <= 768 ? '1.8rem' : '2.5rem',
+    fontWeight: '700',
+    background: 'linear-gradient(135deg, #667eea, #764ba2)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
+    marginBottom: '1rem',
+    lineHeight: '1.2',
+  };
+
+  const subtitleStyle = {
+    fontSize: '1.1rem',
+    opacity: '0.8',
+    marginBottom: '2rem',
+    fontWeight: '400',
+  };
+
+  const featureStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    fontSize: '1rem',
+    lineHeight: '1.6',
+  };
+
+  const featureItemStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    padding: '0.5rem 0',
+  };
+
+  const rightSideStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem',
+  };
+
+  const formTitleStyle = {
+    fontSize: '1.8rem',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: '0.5rem',
+  };
+
+  const inputStyle = {
+    padding: '1rem',
+    borderRadius: '12px',
+    border: dark ? '2px solid #475569' : '2px solid #e2e8f0',
+    background: dark ? '#334155' : '#ffffff',
+    color: dark ? '#f1f5f9' : '#1e293b',
+    fontSize: '1rem',
+    transition: 'all 0.3s ease',
+    outline: 'none',
+  };
+
+  const buttonStyle = {
+    padding: '1rem',
+    background: 'linear-gradient(135deg, #667eea, #764ba2)',
+    color: '#ffffff',
+    fontWeight: '600',
+    borderRadius: '12px',
+    border: 'none',
+    cursor: isLoading ? 'not-allowed' : 'pointer',
+    fontSize: '1rem',
+    transition: 'all 0.3s ease',
+    opacity: isLoading ? 0.7 : 1,
+    transform: isLoading ? 'scale(0.98)' : 'scale(1)',
+  };
+
+  const errorStyle = {
+    backgroundColor: '#fecaca',
+    color: '#b91c1c',
+    padding: '0.75rem',
+    borderRadius: '8px',
+    fontSize: '0.9rem',
+    textAlign: 'center',
+    border: '1px solid #f87171',
+  };
+
+  const testAccountsStyle = {
+    display: 'grid',
+    gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : 'repeat(2, 1fr)',
+    gap: '0.75rem',
+  };
+
+  const testAccountStyle = {
+    background: dark 
+      ? 'linear-gradient(145deg, #475569, #64748b)' 
+      : 'linear-gradient(145deg, #f8fafc, #e2e8f0)',
+    padding: '1rem',
+    borderRadius: '12px',
+    cursor: 'pointer',
+    fontSize: '0.85rem',
+    lineHeight: '1.4',
+    transition: 'all 0.3s ease',
+    border: dark ? '1px solid #64748b' : '1px solid #cbd5e1',
+  };
+
+  const darkModeButtonStyle = {
+    position: 'fixed',
+    top: '1rem',
+    right: '1rem',
+    background: dark ? '#f8fafc' : '#1e293b',
+    color: dark ? '#1e293b' : '#f8fafc',
+    border: 'none',
+    padding: '0.75rem 1rem',
+    borderRadius: '50px',
+    cursor: 'pointer',
+    fontWeight: '600',
+    fontSize: '0.9rem',
+    transition: 'all 0.3s ease',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+    zIndex: 1000,
+  };
+
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(to bottom right, #0f172a, #1e3a8a, #0f172a)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: '2rem',
-      fontFamily: 'sans-serif'
-    }}>
-      <style>{`
-        input:focus {
-          outline: none;
-          border-color: #3b82f6;
-          box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
-        }
-        button:hover:not(:disabled) {
-          transform: scale(1.02);
-        }
-      `}</style>
-      <div style={{ maxWidth: '1200px', width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', alignItems: 'center' }}>
-        {/* Left Side */}
-        <div style={{ color: 'white', padding: '1rem' }}>
-          <h1 style={{
-            fontSize: '3rem',
-            fontWeight: 'bold',
-            background: 'linear-gradient(to right, #60a5fa, #22d3ee)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}>Welcome Back To GPERI Attendance System</h1>
-          <p style={{ fontSize: '1.2rem', color: '#cbd5e1' }}>Access your institutional portal</p>
-          <ul style={{ marginTop: '2rem', color: '#cbd5e1' }}>
-            <li>🛡️ Secure authentication system</li>
-            <li>👥 Multi-role access control</li>
-            <li>🎓 Comprehensive portal management</li>
-          </ul>
+    <div style={containerStyle}>
+      <button
+        onClick={toggleDarkMode}
+        style={darkModeButtonStyle}
+        onMouseEnter={(e) => {
+          e.target.style.transform = 'scale(1.05)';
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.transform = 'scale(1)';
+        }}
+      >
+        {dark ? '☀️ Light' : '🌙 Dark'}
+      </button>
+
+      <div style={cardStyle}>
+        <div style={leftSideStyle}>
+          <h1 style={titleStyle}>
+            Welcome Back to GPERI Attendance System
+          </h1>
+          <p style={subtitleStyle}>
+            Access your institutional portal with secure authentication
+          </p>
+          <div style={featureStyle}>
+            <div style={featureItemStyle}>
+              <span style={{ fontSize: '1.2rem' }}>🛡️</span>
+              <span>Secure authentication system</span>
+            </div>
+            <div style={featureItemStyle}>
+              <span style={{ fontSize: '1.2rem' }}>👥</span>
+              <span>Multi-role access control</span>
+            </div>
+            <div style={featureItemStyle}>
+              <span style={{ fontSize: '1.2rem' }}>🎓</span>
+              <span>Comprehensive dashboard</span>
+            </div>
+            <div style={featureItemStyle}>
+              <span style={{ fontSize: '1.2rem' }}>📊</span>
+              <span>Real-time attendance tracking</span>
+            </div>
+          </div>
         </div>
 
-        {/* Right Side */}
-        <div style={{
-          backgroundColor: 'rgba(255,255,255,0.05)',
-          border: '1px solid rgba(255,255,255,0.2)',
-          borderRadius: '1rem',
-          padding: '2rem',
-          color: 'white'
-        }}>
-          <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-            <div style={{
-              width: '64px', height: '64px', margin: '0 auto',
-              background: 'linear-gradient(to right, #3b82f6, #06b6d4)',
-              borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '2rem'
-            }}>🔒</div>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Sign In</h2>
-            <p style={{ color: '#cbd5e1' }}>Enter your credentials to continue</p>
-          </div>
-
-          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <div>
-              <label>Email Address</label>
+        <div style={rightSideStyle}>
+          <h2 style={formTitleStyle}>Sign In</h2>
+          
+          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              style={inputStyle}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#667eea';
+                e.target.style.boxShadow = '0 0 0 3px rgba(102, 126, 234, 0.1)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = dark ? '#475569' : '#e2e8f0';
+                e.target.style.boxShadow = 'none';
+              }}
+            />
+            
+            <div style={{ position: 'relative' }}>
               <input
-                type="email"
-                value={email}
-                placeholder="Enter your email"
-                onChange={(e) => setEmail(e.target.value)}
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
-                style={{
-                  width: '100%', padding: '0.75rem',
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: '0.5rem',
-                  color: 'white'
+                style={{ ...inputStyle, width: '85%', paddingRight: '3rem' }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#667eea';
+                  e.target.style.boxShadow = '0 0 0 3px rgba(102, 126, 234, 0.1)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = dark ? '#475569' : '#e2e8f0';
+                  e.target.style.boxShadow = 'none';
                 }}
               />
-            </div>
-            <div>
-              <label>Password</label>
-              <div style={{ position: 'relative' }}>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  placeholder="Enter your password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  style={{
-                    width: '93%', padding: '0.75rem',
-                    paddingRight: '3rem',
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    borderRadius: '0.5rem',
-                    color: 'white'
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  style={{
-                    position: 'absolute',
-                    right: '1rem',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
-                    border: 'none',
-                    color: 'white',
-                    fontSize: '1rem',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {showPassword ? '🙈' : '👁️'}
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '1rem',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '1.2rem',
+                  padding: '0.25rem',
+                }}
+              >
+                {showPassword ? '🙈' : '👁️'}
+              </button>
             </div>
 
-            {error && <div style={{ backgroundColor: 'rgba(255,0,0,0.2)', color: '#fca5a5', padding: '0.5rem', borderRadius: '0.5rem' }}>{error}</div>}
+            {error && <div style={errorStyle}>{error}</div>}
 
             <button
               type="submit"
               disabled={isLoading}
-              style={{
-                padding: '0.75rem',
-                background: 'linear-gradient(to right, #2563eb, #06b6d4)',
-                color: 'white',
-                fontWeight: 'bold',
-                borderRadius: '0.5rem',
-                cursor: 'pointer',
-                border: 'none'
+              style={buttonStyle}
+              onMouseEnter={(e) => {
+                if (!isLoading) {
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 10px 20px rgba(102, 126, 234, 0.3)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isLoading) {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = 'none';
+                }
               }}
             >
-              {isLoading ? 'Signing In...' : 'Sign In'}
+              {isLoading ? '🔄 Signing In...' : '🚀 Sign In'}
             </button>
           </form>
 
-          {/* Test Accounts */}
-          <div style={{ marginTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: '1rem' }}>
-            <h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>Test Accounts</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+          <div>
+            <h4 style={{ marginBottom: '1rem', textAlign: 'center', opacity: '0.8' }}>
+              Quick Test Accounts
+            </h4>
+            <div style={testAccountsStyle}>
               {testAccounts.map((acc, index) => (
                 <div
                   key={index}
-                  onClick={() => { setEmail(acc.email); setPassword(acc.password); }}
-                  style={{
-                    background: 'rgba(255,255,255,0.05)',
-                    padding: '0.75rem',
-                    borderRadius: '0.5rem',
-                    cursor: 'pointer',
-                    border: '1px solid rgba(255,255,255,0.1)'
+                  onClick={() => {
+                    setEmail(acc.email);
+                    setPassword(acc.password);
+                  }}
+                  style={testAccountStyle}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = 'translateY(-2px)';
+                    e.target.style.boxShadow = '0 8px 16px rgba(0,0,0,0.1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = 'none';
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <div style={{ fontSize: '1.25rem' }}>{acc.icon}</div>
-                    <div>
-                      <p style={{ fontWeight: 'bold' }}>{acc.role}</p>
-                      <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>{acc.email}</p>
-                      <p style={{ fontSize: '0.7rem', color: '#64748b' }}>Password: {acc.password}</p>
-                    </div>
+                  <div style={{ fontWeight: '600', marginBottom: '0.25rem' }}>
+                    {acc.icon} {acc.role}
+                  </div>
+                  <div style={{ fontSize: '0.8rem', opacity: '0.8' }}>
+                    {acc.email}
+                  </div>
+                  <div style={{ fontSize: '0.75rem', opacity: '0.6' }}>
+                    Password: {acc.password}
                   </div>
                 </div>
               ))}
             </div>
-            <p style={{ fontSize: '0.8rem', color: '#94a3b8', textAlign: 'center', marginTop: '1rem' }}>
-              Click on any account above to auto-fill credentials
-            </p>
           </div>
         </div>
       </div>
