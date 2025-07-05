@@ -27,14 +27,6 @@ app.use(cors({
   credentials: true
 }));
 
-
-app.use(cors({
-  origin: 'http://localhost:3000', // React frontend URL
-  credentials: true
-}));
-
-
-
 // ✅ Middleware to parse JSON
 app.use(express.json());
 
