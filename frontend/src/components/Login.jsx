@@ -335,7 +335,7 @@ const Login = () => {
             </button>
           </form>
 
-            <div>
+            {/* <div>
               <h4 style={{ marginBottom: '1rem', textAlign: 'center', opacity: '0.8' }}>
                 Quick Test Accounts
               </h4>
@@ -369,7 +369,7 @@ const Login = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
         </div>
       </div>
     </div>
