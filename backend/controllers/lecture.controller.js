@@ -111,7 +111,6 @@ const getLecturesBySubject = (req, res) => {
       l.topic,
       l.date,
       l.duration,
-      l.status,
       l.faculty_id,
       s.name AS subject_name,
       f.name AS faculty_name
