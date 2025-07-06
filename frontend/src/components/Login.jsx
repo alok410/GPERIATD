@@ -331,7 +331,7 @@ const Login = () => {
                 } 
               }}
             >
-              {isLoacxding ? '🔄 Signing In...' : '🚀 Sign In'}
+              {isLoading ? '🔄 Signing In...' : '🚀 Sign In'}
             </button>
           </form>
 
