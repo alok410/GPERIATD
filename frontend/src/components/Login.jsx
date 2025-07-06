@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Logo from "../utils/gtuLogo.jpg"
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -214,6 +215,7 @@ const Login = () => {
 
   return (
     <div style={containerStyle}>
+      <img src={Logo} alt="" />
       <button
         onClick={toggleDarkMode}
         style={darkModeButtonStyle}
