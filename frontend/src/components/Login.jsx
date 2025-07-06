@@ -232,7 +232,7 @@ const Login = () => {
         <div style={leftSideStyle}>
           <h1 style={titleStyle}>
         <img src={Logo} alt="" style={{height:"150px",width:"150px", margin:"15px",borderRadius:"50%"}}/>
-            Welcome Back to GPERI Attendance System
+            Welcome Back to GTU-ITR(Formerly GPERI) Attendance System
           </h1>
           <p style={subtitleStyle}>
             Access your institutional portal with secure authentication
