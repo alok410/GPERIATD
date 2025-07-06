@@ -328,10 +328,10 @@ const Login = () => {
                 if (!isLoading) {
                   e.target.style.transform = 'translateY(0)';
                   e.target.style.boxShadow = 'none';
-                }
+                } 
               }}
             >
-              {isLoading ? '🔄 Signing In...' : '🚀 Sign In'}
+              {isLoacxding ? '🔄 Signing In...' : '🚀 Sign In'}
             </button>
           </form>
 
