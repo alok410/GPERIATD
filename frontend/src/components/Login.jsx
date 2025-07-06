@@ -215,7 +215,6 @@ const Login = () => {
 
   return (
     <div style={containerStyle}>
-      <img src={Logo} alt="" />
       <button
         onClick={toggleDarkMode}
         style={darkModeButtonStyle}
@@ -232,6 +231,7 @@ const Login = () => {
       <div style={cardStyle}>
         <div style={leftSideStyle}>
           <h1 style={titleStyle}>
+        <img src={Logo} alt="" style={{height:"150px",width:"150px", margin:"15px",borderRadius:"50%"}}/>
             Welcome Back to GPERI Attendance System
           </h1>
           <p style={subtitleStyle}>
