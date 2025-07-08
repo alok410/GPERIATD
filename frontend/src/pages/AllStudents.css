@@ -1,0 +1,118 @@
+.page-style {
+  display: flex;
+  gap: 30px;
+  background: linear-gradient(to bottom right, #1f2937, #0f172a);
+  color: #fff;
+  min-height: 100vh;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.left-section {
+  flex: 1;
+  min-width: 300px;
+}
+
+.heading-style {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.filter-container {
+  margin-bottom: 15px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.input-style {
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  min-width: 150px;
+  background-color: #1e293b;
+  color: #fff;
+  flex: 1;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #ffffff20;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+}
+
+.table-style {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #fff;
+}
+
+.table-style th,
+.table-style td {
+  border: 1px solid grey;
+  padding: 8px;
+  text-align: center;
+}
+
+.icon-style {
+  height: 24px;
+  margin: 0 8px;
+  cursor: pointer;
+}
+
+.form-card {
+  width: 350px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background-color: #1e293b;
+  color: #fff;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #3b82f6;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .page-style {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .form-card {
+    width: 100%;
+  }
+
+  .input-style {
+    min-width: 100% !important;
+  }
+
+  .table-style {
+    font-size: 12px;
+  }
+
+  .icon-style {
+    height: 20px;
+  }
+}
