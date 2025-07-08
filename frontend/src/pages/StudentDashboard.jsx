@@ -70,19 +70,21 @@ const StudentDashboard = () => {
   const totalLectures = allLectures.filter(l => l.duration === 1).length;
   const totalLabs = allLectures.filter(l => l.duration === 2).length;
 
-  const presentLectures = attendance.filter(
-    a =>
-      a.student_id === studentId &&
-      a.status === "Present" &&
-      allLectures.some(l => l.id === a.lecture_id && l.duration === 1)
-  ).length;
+  const presentLectures = allLectures
+    .filter(l => l.duration === 1)
+    .filter(l =>
+      attendance.some(
+        a => a.lecture_id === l.id && a.student_id === studentId && a.status === "Present"
+      )
+    ).length;
 
-  const presentLabs = attendance.filter(
-    a =>
-      a.student_id === studentId &&
-      a.status === "Present" &&
-      allLectures.some(l => l.id === a.lecture_id && l.duration === 2)
-  ).length;
+  const presentLabs = allLectures
+    .filter(l => l.duration === 2)
+    .filter(l =>
+      attendance.some(
+        a => a.lecture_id === l.id && a.student_id === studentId && a.status === "Present"
+      )
+    ).length;
 
   return (
     <>
@@ -113,12 +115,13 @@ const StudentDashboard = () => {
             <option value="absent">Absent</option>
           </select>
         </div>
-            {/* Foughnits Section */}
-            <div style={foughnitBox}>
-              <h4>📊 Attendance Summary:</h4>
-              <p>🎓 Lectures: {presentLectures} / {totalLectures}</p>
-              <p>🔬 Labs: {presentLabs} / {totalLabs}</p>
-            </div>
+
+        {/* Summary Section */}
+        <div style={foughnitBox}>
+          <h4>📊 Attendance Summary:</h4>
+          <p>🎓 Lectures: {presentLectures} / {totalLectures}</p>
+          <p>🔬 Labs: {presentLabs} / {totalLabs}</p>
+        </div>
 
         {selectedSubject && (
           <div style={infoCard}>
@@ -157,7 +160,6 @@ const StudentDashboard = () => {
                 })
               )}
             </ul>
-
           </div>
         )}
       </div>
