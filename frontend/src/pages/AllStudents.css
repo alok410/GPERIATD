@@ -1,16 +1,32 @@
+/* 🌙 Dark Theme Inspired by Login Page */
+body {
+  background-color: #0d1117;
+  color: #e6edf3;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Responsive & Themed Layout */
 .page-style {
   display: flex;
+  flex-direction: row;
   gap: 30px;
-  background: linear-gradient(to bottom right, #1f2937, #0f172a);
-  color: #fff;
+  background: linear-gradient(to bottom right, #0d1117, #161b22);
+  color: #e6edf3;
   min-height: 100vh;
   padding: 20px;
-  flex-wrap: wrap;
 }
 
 .left-section {
   flex: 1;
-  min-width: 300px;
+}
+
+.form-card {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 16px;
+  padding: 20px;
+  width: 350px;
+  align-self: flex-start;
 }
 
 .heading-style {
@@ -21,79 +37,70 @@
 .filter-container {
   margin-bottom: 15px;
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
 .input-style {
-  padding: 6px;
+  padding: 8px;
   border-radius: 6px;
-  border: 1px solid #444;
+  border: 1px solid #30363d;
+  background-color: #21262d;
+  color: #e6edf3;
   min-width: 150px;
-  background-color: #1e293b;
+}
+
+.add-style {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #30363d;
+  background-color: #21262d;
+  color: #e6edf3;
+}
+
+.button-style {
+  padding: 10px 16px;
+  border-radius: 6px;
+  background-color: #238636; /* GitHub green */
   color: #fff;
-  flex: 1;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-weight: bold;
 }
 
 .table-wrapper {
+  max-height: 530px;
+  overflow-y: auto;
   overflow-x: auto;
-  border: 1px solid #ffffff20;
+  border: 1px solid #30363d;
   padding: 10px;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
+  background-color: #0d1117;
 }
 
 .table-style {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
-  color: #fff;
+  color: #e6edf3;
 }
 
-.table-style th,
-.table-style td {
-  border: 1px solid grey;
-  padding: 8px;
-  text-align: center;
+.cell-style {
+  border: 1px solid #30363d;
+  padding: 10px;
+  vertical-align: middle;
 }
 
 .icon-style {
   height: 24px;
-  margin: 0 8px;
+  margin: 0 10px;
   cursor: pointer;
 }
 
-.form-card {
-  width: 350px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  padding: 20px;
-}
-
-.form-input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border-radius: 6px;
-  border: 1px solid #555;
-  background-color: #1e293b;
-  color: #fff;
-}
-
-.submit-button {
-  width: 100%;
-  padding: 10px;
-  border-radius: 6px;
-  background-color: #3b82f6;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-/* Responsive behavior */
+/* ✅ Responsive Styling */
 @media (max-width: 768px) {
   .page-style {
     flex-direction: column;
@@ -101,11 +108,16 @@
   }
 
   .form-card {
-    width: 100%;
+    width: 100% !important;
+  }
+
+  .filter-container {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .input-style {
-    min-width: 100% !important;
+    width: 100% !important;
   }
 
   .table-style {
@@ -113,6 +125,7 @@
   }
 
   .icon-style {
+    margin: 0 6px;
     height: 20px;
   }
 }
